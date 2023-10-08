@@ -170,6 +170,18 @@ export interface IConfig {
    * @default true
    */
   generateIndexSitemap?: boolean
+
+  /**
+   * Lastmod tag for sitemap index
+   * If it's true, it takes the server time while during build
+   * @example sitemapIndexLastmod: true
+   * 
+   * If you want use specific time for sitemapindex lastmod property, you can set any string date format.
+   * @example sitemapIndexLastmod: new Date().toString()
+   * @example sitemapIndexLastmod: "Sat Mar 11 2023 18:17:52 GMT+0300 (GMT+01:00)"
+   * @default false
+   */
+  sitemapIndexLastmod?: boolean | string | undefined
 }
 
 export type AdditionalPathsConfig = Readonly<

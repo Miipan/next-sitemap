@@ -20,16 +20,27 @@ export class SitemapBuilder {
     return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n${content}</urlset>`
   }
 
+  private prepareSitemapIndexLastMod(sitemapIndexLastmod: boolean | string): string {
+    if(sitemapIndexLastmod) {
+      if(typeof sitemapIndexLastmod === "boolean") {
+        return `<lastmod>${new Date().toString()}</lastmod>`
+      }
+      return `<lastmod>${sitemapIndexLastmod}</lastmod>`
+    }
+    return ""
+  }
+
   /**
    * Generates sitemap-index.xml
    * @param allSitemaps
+   * @param sitemapIndexLastmod
    * @returns
    */
   buildSitemapIndexXml(allSitemaps: string[]) {
     return [
       '<?xml version="1.0" encoding="UTF-8"?>',
       '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-      ...(allSitemaps?.map((x) => `<sitemap><loc>${x}</loc></sitemap>`) ?? []),
+      ...(allSitemaps?.map((x) => `<sitemap><loc>${x}</loc>${this.prepareSitemapIndexLastMod(sitemapIndexLastmod)}</sitemap>`) ?? []),
       '</sitemapindex>',
     ].join('\n')
   }
